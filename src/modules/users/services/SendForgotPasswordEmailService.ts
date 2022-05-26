@@ -1,8 +1,9 @@
 import AppError from "@shared/errors/AppError"
-
+import path from 'path'
 import { getCustomRepository } from "typeorm"
 import UsersRepository from "../typeorm/repositories/UsersRepository"
 import UsersTokensRepository from "../typeorm/repositories/UsersTokensRepository"
+import EtherealMail from '@config/mail/EtherealMail'
 
 interface IRequest {
   email: string
@@ -20,8 +21,23 @@ export default class SendForgotPasswordEmailService {
       throw new AppError('User does not exists.')
     }
 
-    const token = await usersTokensRepository.generate(user.id)
+    const {token} = await usersTokensRepository.generate(user.id)
 
-    console.log(token)
+    const forgotPasswordTemplate = path.resolve(__dirname, '..', 'views', 'forgot_password.hbs')
+
+    await EtherealMail.sendMail({
+      to: {
+        name: user.name,
+        email: user.email
+      },
+      subject: '[APIVENDAS] Recuperação de senha',
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: user.name,
+          link: `http://localhost:3000/reset_password?token=${token}`
+        }
+      }
+    })
   }
 }
