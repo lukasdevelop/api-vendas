@@ -1,4 +1,4 @@
-export interface IUpdateProduct {
+export interface IUpdateProductDTO {
   id: string
   name: string
   price: number
