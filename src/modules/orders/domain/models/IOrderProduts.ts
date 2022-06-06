@@ -1,4 +1,5 @@
 import { IOrder } from "@modules/orders/domain/models/IOrders"
+import { IProduct } from "@modules/products/domain/models/IProduct"
 
 export interface IOrderProducts {
   id: string

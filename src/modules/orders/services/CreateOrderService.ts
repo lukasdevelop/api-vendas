@@ -1,24 +1,11 @@
 import { ICustomersRepository } from "@modules/customers/domain/repositories/ICustomersRepository"
-import CustomersRepository from "@modules/customers/infra/typeorm/repositories/CustomersRepository"
-import { ProductRepository } from "@modules/products/infra/typeorm/repositories/ProductsRepository"
+import { IProductsRepository } from "@modules/products/domain/repositories/IProductsRepository"
 import AppError from "@shared/errors/AppError"
 import { inject, injectable } from "tsyringe"
-import { getCustomRepository } from "typeorm"
 import { ICreateOrderDTO } from "../domain/models/ICreateOrderDTO.dto"
 import { IOrder } from "../domain/models/IOrders"
 import { IOrdersRepository } from "../domain/repositories/IOrdersRepository"
-import Order from "../infra/typeorm/entities/Order"
-import { OrdersRepository } from "../infra/typeorm/repositories/OrdersRepository"
 
-interface IProduct {
-  id: string
-  quantity: number
-
-}
-interface IRequest {
-  customer_id: string
-  products: IProduct[]
-}
 @injectable()
 export default class CreateOrderService {
 
@@ -88,7 +75,7 @@ export default class CreateOrderService {
         })
       )
 
-      await this.productsRepository.save(updatedProductQuantity)
+      await this.productsRepository.updateStock(updatedProductQuantity)
 
       return order
       
