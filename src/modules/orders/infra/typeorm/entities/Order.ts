@@ -7,6 +7,9 @@ export default class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
+  @Column('int')
+  order: number
+
   @ManyToOne(() => Customer)
   @JoinColumn({name: 'customer_id' })
   customer: Customer
