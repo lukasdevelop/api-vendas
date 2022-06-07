@@ -2,9 +2,9 @@ import { IUserTokensRepository } from "@modules/users/domain/repositories/IUserT
 import { getRepository, Repository } from "typeorm";
 import UserToken from "../entities/UserToken";
 
-export default class UsersTokensRepository implements IUserTokensRepository {
-
-  constructor(private ormRepo: Repository<UserToken>){
+export default class UserTokensRepository implements IUserTokensRepository {
+  private ormRepo: Repository<UserToken>
+  constructor(){
     this.ormRepo = getRepository(UserToken)
   }
 

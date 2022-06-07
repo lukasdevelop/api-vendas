@@ -1,21 +1,12 @@
 import AppError from "@shared/errors/AppError"
-import { hash } from "bcryptjs"
 import { inject, injectable } from "tsyringe"
-import { getCustomRepository } from "typeorm"
 import { ICreateUserDTO } from "../domain/models/ICreateUserDTO.dto"
 import { IUser } from "../domain/models/IUser"
 import { IUsersRepository } from "../domain/repositories/IUsersRepository"
-import User from "../infra/typeorm/entities/User"
-import UsersRepository from "../infra/typeorm/repositories/UsersRepository"
 import { IHashProvider } from "../providers/HashProvider/models/IHashProvider"
 
-interface IRequest {
-  name: string
-  email: string
-  password: string
-}
 @injectable()
-class CreateUserService {
+export default class CreateUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepo: IUsersRepository,
@@ -43,5 +34,3 @@ class CreateUserService {
     return user
   }
 }
-
-export default CreateUserService

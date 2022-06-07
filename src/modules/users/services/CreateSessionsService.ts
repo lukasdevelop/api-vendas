@@ -11,11 +11,13 @@ import { IUserAuthenticated } from "../domain/models/IUserAuthenticated"
 
 
 @injectable()
-class CreateSessionsService {
+export default class CreateSessionsService {
 
   constructor(
-    @inject('UsersRepository') private userRepo: IUsersRepository, 
-    @inject('HashProvider') private hashProvider: IHashProvider,
+    @inject('UsersRepository') 
+    private userRepo: IUsersRepository, 
+    @inject('HashProvider') 
+    private hashProvider: IHashProvider,
     
     ){}
 
@@ -44,5 +46,3 @@ class CreateSessionsService {
     }
   }
 }
-
-export default CreateSessionsService

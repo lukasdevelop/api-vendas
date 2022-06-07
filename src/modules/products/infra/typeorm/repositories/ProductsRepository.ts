@@ -8,7 +8,7 @@ import { getRepository, In, Repository} from 'typeorm'
 import Product from '../entities/Product'
 
 
-export class ProductsRepository implements IProductsRepository{
+export default class ProductsRepository implements IProductsRepository{
 
   constructor(private ormRepository: Repository<Product>){
     this.ormRepository = getRepository(Product)

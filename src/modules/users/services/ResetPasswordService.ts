@@ -3,7 +3,7 @@ import {isAfter, addHours} from 'date-fns'
 import { hash } from 'bcryptjs'
 import { getCustomRepository } from "typeorm"
 import UsersRepository from "../infra/typeorm/repositories/UsersRepository"
-import UsersTokensRepository from "../infra/typeorm/repositories/UsersTokensRepository"
+import UsersTokensRepository from "../infra/typeorm/repositories/UserTokensRepository"
 import { inject, injectable } from "tsyringe"
 import { IUsersRepository } from "../domain/repositories/IUsersRepository"
 import { IUserTokensRepository } from "../domain/repositories/IUserTokensRepository"

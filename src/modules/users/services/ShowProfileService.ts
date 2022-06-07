@@ -9,9 +9,9 @@ export default class ShowProfileService {
 
   constructor(@inject('UsersRepository') private usersRepo: IUsersRepository){}
 
-  public async execute({user_id}: IShowUser): Promise<IUser>{
+  public async execute({id}: IShowUser): Promise<IUser>{
 
-    const user = await this.usersRepo.findById(user_id)
+    const user = await this.usersRepo.findById(id)
 
     if(!user){
       throw new AppError('User not found.')

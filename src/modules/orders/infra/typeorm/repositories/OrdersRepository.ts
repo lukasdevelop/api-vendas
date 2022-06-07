@@ -1,15 +1,13 @@
-import { EntityRepository, Repository} from 'typeorm'
+import { Repository} from 'typeorm'
 import Order from '../entities/Order'
-import Customer from '@modules/customers/infra/typeorm/entities/Customer'
 import { IOrdersRepository } from '@modules/orders/domain/repositories/IOrdersRepository'
 import { ICreateOrder } from '@modules/orders/domain/models/ICreateOrder'
 import { IOrderPaginate } from '@modules/orders/domain/models/IOrderPaginate'
-import { IOrder } from '@modules/orders/domain/models/IOrders'
 
 
 
 
-export class OrdersRepository  implements IOrdersRepository{
+export default class OrdersRepository  implements IOrdersRepository{
 
   constructor(private ormRepository: Repository<Order>){}
 

@@ -13,7 +13,9 @@ type SearchParams = {
 
 export default class UsersRepository implements IUsersRepository {
 
-  constructor(private ormRepo: Repository<User>){
+  private ormRepo: Repository<User>
+  
+  constructor(){
     this.ormRepo = getRepository(User)
   }
   
