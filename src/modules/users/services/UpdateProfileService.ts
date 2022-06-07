@@ -1,8 +1,9 @@
 import AppError from "@shared/errors/AppError";
-import {compare, hash} from 'bcryptjs'
-import { getCustomRepository } from "typeorm";
-import User from "../infra/typeorm/entities/User";
+import { inject, injectable } from "tsyringe";
+import { IUpdateProfile } from "../domain/models/IUpdateProfile";
+import { IUser } from "../domain/models/IUser";
 import UsersRepository from "../infra/typeorm/repositories/UsersRepository";
+import { IHashProvider } from "../providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
   user_id: string
@@ -11,19 +12,23 @@ interface IRequest {
   password?: string
   old_password?: string
 }
-
+@injectable()
 export default class UpdateProfileService {
 
-  public async execute({user_id, name, email, password, old_password}: IRequest): Promise<User>{
-    const usersRepository = getCustomRepository(UsersRepository)
+  constructor(
+    @inject('UsersRepository') private usersRepo: UsersRepository,
+    @inject('HashProvider') private hashProvider: IHashProvider
+    ){}
 
-    const user = await usersRepository.findById(user_id)
+  public async execute({user_id, name, email, password, old_password}: IUpdateProfile): Promise<IUser>{
+
+    const user = await this.usersRepo.findById(user_id)
 
     if(!user){
       throw new AppError('User not found.')
     }
 
-    const userUpdateEmail = await usersRepository.findByEmail(email)
+    const userUpdateEmail = await this.usersRepo.findByEmail(email)
 
     if(userUpdateEmail && userUpdateEmail.id !== user_id){
       throw new AppError('There is already one user with this email.')
@@ -34,19 +39,19 @@ export default class UpdateProfileService {
     }
 
     if(password && old_password){
-      const checkOldPassword = await compare(old_password, user.password)
+      const checkOldPassword = await this.hashProvider.compareHash(old_password, user.password)
 
       if(!checkOldPassword){
         throw new AppError('Old password does not match.')
       }
 
-      user.password = await hash(password, 8)
+      user.password = await this.hashProvider.generateHash(password)
     }
 
     user.name = name
     user.email = email
 
-    await usersRepository.save(user)
+    await this.usersRepo.save(user)
 
     return user
   }

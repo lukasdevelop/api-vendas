@@ -8,7 +8,8 @@ import { OrdersRepository } from '@modules/orders/infra/typeorm/repositories/Ord
 
 import { ProductsRepository } from '@modules/products/infra/typeorm/repositories/ProductsRepository'
 import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository'
-import UsersRepository from 'dist/modules/users/typeorm/repositories/UsersRepository'
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository'
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository'
 
 
 container.registerSingleton<ICustomersRepository>('CustomersRepository', CustomersRepository)
@@ -17,4 +18,4 @@ container.registerSingleton<IProductsRepository>('ProductsRepository', ProductsR
 
 container.registerSingleton<IOrdersRepository>('OrdersRepository', OrdersRepository)
 
-container.registerSingleton('UsersRepository',UsersRepository)
+container.registerSingleton<IUsersRepository>('UsersRepository',UsersRepository)

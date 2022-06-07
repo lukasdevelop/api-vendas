@@ -10,8 +10,6 @@ class ListProductService {
 
   public async execute(): Promise<IProductPaginate>{
 
-    //const products = await this.productsRepo.findAllPaginate()
-
     let products = await redisCache.recover<IProductPaginate>(
       'api-vendas-PRODUCT_LIST'
     )
